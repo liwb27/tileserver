@@ -1,0 +1,53 @@
+{
+    "options": {
+        "paths": {
+            "root": "/data",
+            "fonts": "fonts",
+            "styles": "styles",
+            "mbtiles": "/data"
+        }
+    },
+    "styles": {
+        "jsb3s-bright": {
+            "style": "jsb3s-bright/style.json",
+            "tilejson": {
+                "bounds": [-180, -85.0511, 180, 85.0511]
+            }
+        },
+        "klokantech-basic": {
+            "style": "klokantech-basic/style.json",
+            "tilejson": {
+                "bounds": [-180, -85.0511, 180, 85.0511]
+            }
+        },
+        "osm-bright": {
+            "style": "osm-bright/style.json",
+            "tilejson": {
+                "bounds": [-180, -85.0511, 180, 85.0511]
+            }
+        },
+        "jsb3s-liberty": {
+            "style": "jsb3s-liberty/style.json",
+            "tilejson": {
+                "bounds": [-180, -85.0511, 180, 85.0511]
+            }
+        },
+        "test": {
+            "style": "natural_earth.vector.json",
+            "tilejson": {
+                "bounds": [-180, -85.0511, 180, 85.0511]
+            }
+        }
+    },
+    "data": {
+        "worldmap": {
+            "mbtiles": "2017-07-03_planet_z0_z14.mbtiles"
+        },
+        "natural_earth": {
+            "mbtiles": "natural_earth.vector.mbtiles"
+        },
+        "natural_earth2": {
+            "mbtiles": "natural_earth_2_shaded_relief.raster.mbtiles"
+        }
+    }
+}

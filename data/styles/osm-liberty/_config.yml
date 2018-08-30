@@ -1,0 +1,7 @@
+# Site settings
+title: OSM Liberty
+email: me@lukasmartinelli.ch
+description: A free Mapbox GL basemap based on open data
+baseurl: ""
+url: "http://osm-liberty.luaksmartinelli.ch"
+markdown: kramdown
