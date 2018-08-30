@@ -35,13 +35,13 @@ tileserver-gl的部分依赖库必须在linux环境运行，因此无法在在wi
 地图数据可以从[openmaptiles](https://openmaptiles.com/downloads/planet/)网站下载，该网站提供了OpenStreetMap、等高线（Contour）、山体阴影（Hillshade）、卫星地图（Satellite）等种类的地图数据下载，其中只有OpenStreetMap可以免费下载，其余均需要付费。地图可以按照区域单独下载，全球数据大约51GB。
 
 下载的地图文件格式是`.mbtiles`，这种文件实际上是一个改了后缀名的sqlite数据库文件。用navicat打开这个数据库，其中包含了以下几个表：
-![avatar](./mbtiles-1.png)
+![avatar](./mbtiles-1.PNG)
 其中metadata表存放了该数据库的一些详细信息，包括地图边界，地图文件格式，地图图层信息等。其中json字段定义的地图图层信息最为重要，在后续自定义地图时，可以根据这里提供的图层数据要素的名称来实现地图显示的自定义。
-![avatar](./mbtiles-2.png)
+![avatar](./mbtiles-2.PNG)
 其中map表存地图分级以及每层级各个瓦片所对应的tile_id。
-![avatar](./mbtiles-3.png)
+![avatar](./mbtiles-3.PNG)
 其中images表存放了tile_id到tile_data的对应关系，tile_data中存放的是OpenStreeMap地图的pbf格式文件。
-![avatar](./mbtiles-4.png)
+![avatar](./mbtiles-4.PNG)
 
 ### OSM地图
 OSM地图数据可以直接从网站上下载，网站上提供大约延迟半年的OpenStreetMap地图数据。也可以从OpenStreetMap网站下载pbf格式的地图文件然后自行转换成mbtiles格式使用，openmaptiles提供了从pbf到mbtiles格式的转换工具，具体的方法可以参考[这里](https://github.com/openmaptiles/openmaptiles/blob/README.md)。转换的过程使用了docker-compose，以及一系列的docker镜像。如果需要转换整个地球的地图数据，需要100GB以上的临时存储空间，以及数小时的转换时间，因此如果对最新的地图数据没有特殊需求，建议直接下载使用mbtiles格式的数据。
@@ -51,7 +51,7 @@ OpenStreetMap提供付费的等高线数据，如果想使用免费的等高线�
 
 ### 地形渲染地图
 地形渲染图是指按照不同的地貌和海拔信息将地图渲染成不同的颜色和阴影的地图，具体效果见下图。
-![avatar](./earth.png)
+![avatar](./earth.PNG)
 在[github](https://github.com/lukasmartinelli/naturalearthtiles/releases/tag/v1.0)上有人提供了已经生成好的mbtiles文件，我们只需要下载使用即可。唯一的缺点是这个文件所提供的地图分辨率不够，大约在放大到6级的时候就能看出明显的马赛克。如果需要高分辨率的版本，你也可以按照[教程](https://github.com/lukasmartinelli/naturalearthtiles/blob/master/README.md)来生成自己的渲染文件。
 
 ## 地图服务配置
@@ -354,16 +354,16 @@ data.name.mbtiles定义了地图文件路径，例如上述例子中，地图文
 现在我们就完成了城市名的显示，按照上述的修改，具有中文名的城市会显示中文城市名，而没有的则会显示默认的城市名，即当地语言的城市名。
 
 这只是一个图层的修改，整个样式中还有很多个需要这样修改的图层，我们需要按照上述的方法逐一进行修改。我在[Github]()上上传了一份修改好的地图样式文件，也可以直接下载使用。下面是整个地图的渲染效果。
-![avatar](./earth2.png)
-![avatar](./earth3.png)
-![avatar](./earth4.png)
+![avatar](./earth2.PNG)
+![avatar](./earth3.PNG)
+![avatar](./earth4.PNG)
 
 
 ### 自定义字体
 最后再来介绍一下如何生成自定义字体。我们先来看一下tileserver-gl中的字体文件。之前我们定义了字体存放的文件夹，在这个文件夹下，每种字体都放置在单独的文件夹中，文件夹名就是在地图样式文件中使用的字体文件名。我们可以发现同一个字体会被分为加黑、加粗、斜体等等不同的种类。之所以这样划分，是因为这些字体文件存储的实际上是字体中每个字符的符号图片，因此不同粗细、斜体的字体都需要分开存储。因此在自定义字体时也需要根据需求生成不同粗细的字体文件。
-![avatar](./font.png)
+![avatar](./font.PNG)
 我们再看每个字体文件夹，文件夹中存放的就是每个字符的图片。每256个字符存为一个pbf文件，unicode共有65536个字符，共有256各字符文件。我们可以发现511号以后的字符文件大小均为1kb，这就是为什么默认字体无法显示中文的原因，因为它只保存了英文字符的图片，而对于更多的其他字符均没有。
-![avatar](./font-2.png)
+![avatar](./font-2.PNG)
 了解完字体文件的格式后，我们来看一下如何生成自己的字体文件。首先我们需要准备ttf的字体文件，可以再[Github](https://github.com/adobe-fonts)上下载思源黑体、宋体使用，也可以使用你自己的字体文件。
 
 准备好字体文件后，我们使用[genfontgl](http://github.com/sabas/genfontgl)工具来将字体文件切割为多个pbf文件。注意，这个软件只能在linux下运行。将源代码下载后，执行`npm install`来下载所有的依赖库，然后执行`node index.js font.ttf`就可以切割tff文件了。
