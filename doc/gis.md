@@ -35,12 +35,19 @@ tileserver-gl的部分依赖库必须在linux环境运行，因此无法在在wi
 地图数据可以从[openmaptiles](https://openmaptiles.com/downloads/planet/)网站下载，该网站提供了OpenStreetMap、等高线（Contour）、山体阴影（Hillshade）、卫星地图（Satellite）等种类的地图数据下载，其中只有OpenStreetMap可以免费下载，其余均需要付费。地图可以按照区域单独下载，全球数据大约51GB。
 
 下载的地图文件格式是`.mbtiles`，这种文件实际上是一个改了后缀名的sqlite数据库文件。用navicat打开这个数据库，其中包含了以下几个表：
+
 ![avatar](./mbtiles-1.PNG)
+
 其中metadata表存放了该数据库的一些详细信息，包括地图边界，地图文件格式，地图图层信息等。其中json字段定义的地图图层信息最为重要，在后续自定义地图时，可以根据这里提供的图层数据要素的名称来实现地图显示的自定义。
+
 ![avatar](./mbtiles-2.PNG)
+
 其中map表存地图分级以及每层级各个瓦片所对应的tile_id。
+
 ![avatar](./mbtiles-3.PNG)
+
 其中images表存放了tile_id到tile_data的对应关系，tile_data中存放的是OpenStreeMap地图的pbf格式文件。
+
 ![avatar](./mbtiles-4.PNG)
 
 ### OSM地图
@@ -51,7 +58,9 @@ OpenStreetMap提供付费的等高线数据，如果想使用免费的等高线�
 
 ### 地形渲染地图
 地形渲染图是指按照不同的地貌和海拔信息将地图渲染成不同的颜色和阴影的地图，具体效果见下图。
+
 ![avatar](./earth.PNG)
+
 在[github](https://github.com/lukasmartinelli/naturalearthtiles/releases/tag/v1.0)上有人提供了已经生成好的mbtiles文件，我们只需要下载使用即可。唯一的缺点是这个文件所提供的地图分辨率不够，大约在放大到6级的时候就能看出明显的马赛克。如果需要高分辨率的版本，你也可以按照[教程](https://github.com/lukasmartinelli/naturalearthtiles/blob/master/README.md)来生成自己的渲染文件。
 
 ## 地图服务配置
